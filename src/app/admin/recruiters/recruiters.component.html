@@ -1,0 +1,121 @@
+<div class="mat-elevation-z8">
+
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+        <!--  User Id Column -->
+        <ng-container matColumnDef="uid">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> User Id </th>
+        <td mat-cell *matCellDef="let element"> {{element.uid}} </td>
+        </ng-container>
+    
+        <!-- Full Name Column -->
+        <ng-container matColumnDef="fullName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Full Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.fullName}} </td>
+        </ng-container>
+    
+        <!-- College Column -->
+        <ng-container matColumnDef="companyName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Company Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.companyName}} </td>
+        </ng-container>
+    
+        <!-- Experience Column -->
+        <ng-container matColumnDef="jobRole">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Job Role </th>
+        <td mat-cell *matCellDef="let element"> {{element.jobRole}} </td>
+        </ng-container>
+
+         <!-- verificationStatus Column -->
+         <ng-container matColumnDef="verificationStatus">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Verification Status </th>
+            <td mat-cell *matCellDef="let element"> {{element.verificationStatus}} </td>
+        </ng-container>
+    
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row  (click)="openRecruiter(row)" *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[10]" showFirstLastButtons></mat-paginator>
+</div>
+
+<div class="modal" id="myModal" [style.display]="showModal ? 'block' : 'none'">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">User Details:</h4>
+          <span class="user-heading">{{selectedRecruiter.fullName}}</span>
+          <button type="button" class="close" data-dismiss="modal" (click) = "hide()">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+          <form [formGroup]="recruiterForm">
+            <table class="table table-borderless">
+                <tbody>
+                 <tr scope="row">
+                    <th>Profile Picture</th>
+                    <td>
+                        <div class="profile-pic">
+                            <img [src]="getProfilePic(selectedRecruiter)">
+                        </div>
+                    </td> 
+                    <th>Full Name</th>
+                    <td>{{selectedRecruiter.fullName}}</td>
+                  </tr>
+                  <tr scope="row">
+                    <th>User Id</th>
+                    <td>{{selectedRecruiter.uid}}</td>
+                    <th>Id</th>
+                    <td>
+                      <input type="text" value="{{selectedRecruiter.id}}" readonly style="border:0">
+                    </td>                    
+                  </tr>
+                  <tr scope="row">
+                    <th>Job Role</th>
+                    <td>{{selectedRecruiter.jobRole}}</td>
+                    <th>Company Name</th>
+                    <td>{{selectedRecruiter.companyName}}</td>
+                  </tr>
+                  <tr scope="row">
+                    <th>Verification Card Url</th>
+                    <td>{{selectedRecruiter.verificationCardUrl}}</td>
+                    <th>Verification Card Id</th>
+                    <td>{{selectedRecruiter.verificationCardId}}</td> 
+                  </tr>                
+                  <tr scope="row">
+                    <th>Registration Date</th>
+                    <td>{{selectedRecruiter.addDateTime}}</td>
+                    <th>Modification Date</th>
+                    <td>{{selectedRecruiter.updateDateTime}}</td> 
+                  </tr>
+
+                  <tr scope="row">
+                    <td>
+                      <div class="custom-control custom-radio">
+                        <input type="radio" class="custom-control-input" formControlName="status" value="reject" id="reject"  mdbInput>
+                        <label class="custom-control-label" for="reject">Reject</label>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="custom-control custom-radio">
+                        <input type="radio" class="custom-control-input" formControlName="status" value="approve" id="approve"  mdbInput>
+                        <label class="custom-control-label" for="approve">Approve</label>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </form>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal" (click) = "hide()">Close</button>
+          <button type="button" class="btn btn-success" data-dismiss="modal" (click) = "submit()">Submit</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
